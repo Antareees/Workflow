@@ -5,7 +5,8 @@
 
 using namespace std;
 
-void bfs(vector<vector<int>> &graph, int start) {
+void bfs(vector<vector<int>> &graph, int start) // обход в ширину 
+{
     int n = graph.size();
     vector<bool> visited(n, false);
     queue<int> q;
@@ -13,13 +14,16 @@ void bfs(vector<vector<int>> &graph, int start) {
     visited[start] = true;
     q.push(start);
 
-    while (!q.empty()) {
+    while (!q.empty())
+    {
         int node = q.front();
         q.pop();
         cout << node << " ";
 
-        for (int neighbor : graph[node]) {
-            if (!visited[neighbor]) {
+        for (int neighbor : graph[node])
+        {
+            if (!visited[neighbor])
+            {
                 visited[neighbor] = true;
                 q.push(neighbor);
             }
@@ -28,7 +32,8 @@ void bfs(vector<vector<int>> &graph, int start) {
     cout << endl;
 }
 
-void dfs(vector<vector<int>> &graph, int start) {
+void dfs(vector<vector<int>> &graph, int start)
+{
     int n = graph.size();
     vector<bool> visited(n, false);
     stack<int> s;
@@ -36,13 +41,16 @@ void dfs(vector<vector<int>> &graph, int start) {
     visited[start] = true;
     s.push(start);
 
-    while (!s.empty()) {
+    while (!s.empty())
+    {
         int node = s.top();
         s.pop();
         cout << node << " ";
 
-        for (int neighbor : graph[node]) {
-            if (!visited[neighbor]) {
+        for (int neighbor : graph[node])
+        {
+            if (!visited[neighbor])
+            {
                 visited[neighbor] = true;
                 s.push(neighbor);
             }
@@ -51,7 +59,8 @@ void dfs(vector<vector<int>> &graph, int start) {
     cout << endl;
 }
 
-int main() {
+int main()
+{
     int n = 7;
     vector<vector<int>> graph(n);
 
@@ -78,7 +87,8 @@ int main() {
     cout << "obhod v shiriny: " << endl;
     bfs(graph, 0);
 
-    cout << endl << "obhod v glubinu: " << endl;
+    cout << endl
+         << "obhod v glubinu: " << endl;
     dfs(graph, 0);
 
     return 0;
