@@ -84,11 +84,11 @@ int main()
     graph[5].push_back(4);
     graph[5].push_back(6);
 
-    cout << "obhod v shiriny: " << endl;
+    cout << "BFS: " << endl;
     bfs(graph, 0);
 
     cout << endl
-         << "obhod v glubinu: " << endl;
+         << "DFS: " << endl;
     dfs(graph, 0);
 
     return 0;
