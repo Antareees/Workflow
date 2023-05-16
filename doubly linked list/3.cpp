@@ -12,109 +12,92 @@ struct list
     list *prev;
 };
 
-void push(list *&h, list *&t, int x)
+int last(list *h)
+{
+    list *p = h; // укзатель на голову
+    int l = 0;
+    while (p)
+    { // пока не дошли до конца списка
+        if (p->inf % 2 == 0)
+            l = p->inf;
+        p = p->next;
+    }
+    return l;
+}
+
+void push(list *&h, int x)
 {                       // вставка элемента в конец списка
     list *r = new list; // создаем новый элемент
     r->inf = x;
-    r->next = NULL; // всегда последний
-    if (!h && !t)
-    {                   // если список пуст
-        r->prev = NULL; // первый элемент
-        h = r;          // это голова
-    }
-    else
-    {
-        t->next = r; // r - следующий для хвоста
-        r->prev = t; // хвост - предыдущий для r
-    }
-    t = r; // r теперь хвост
+    r->next = h; // всегда последний
+    r->prev = h->prev;       // первый элемент
+    h->prev = r;
+    r->prev->next = r;
 }
 
-list *find(list *h, list *t, int x)
+list *find(list *h, int k)
 {                // печать элементов списка
     list *p = h; // укзатель на голову
-    while (p)
-    { // пока не дошли до конца списка
-        if (p->inf == x)
-            break;   // если нашли, прекращаем цикл
+    for (int i = 0; i < k; i++)
+    {
         p = p->next; // переход к следующему элементу
     }
     return p; // возвращаем указатель
 }
 
-void insert_after(list *&h, list *&t, list *r, int y)
+void insert_after(list *&r, int y)
 {                       // вставляем после r
     list *p = new list; // создаем новый элемент
-    p->inf = y;
-    if (r == t)
-    {                   // если вставляем после хвоста
-        p->next = NULL; // вставляемый эл-т - последний
-        p->prev = r;    // вставляем после r
-        r->next = p;
-        t = p; // теперь хвост - p
-    }
-    else
-    {                      // вставляем в середину списка
-        r->next->prev = p; // для следующего за r эл-та предыдущий - p
-        p->next = r->next; // следующий за p - следующий за r
-        p->prev = r;       // p вставляем после r
-        r->next = p;
-    }
+    p->inf = y;         // вставляем в середину списка
+    r->next->prev = p;  // для следующего за r эл-та предыдущий - p
+    p->next = r->next;  // следующий за p - следующий за r
+    p->prev = r;        // p вставляем после r
+    r->next = p;
 }
 
-void del_node(list *&h, list *&t, list *r)
-{                         // удаляем после r
-    if (r == h && r == t) // единственный элемент списка
-        h = t = NULL;
-    else if (r == h)
-    {                // удаляем голову списка
-        h = h->next; // сдвигаем голову
-        h->prev = NULL;
+void del_node(list *&h, list *r)
+{
+    if (r == h)
+    { // удаляем голову списка
+        h = h->next;
     }
-    else if (r == t)
-    {                // удаляем хвост списка
-        t = t->prev; // сдвигаем хвост
-        t->next = NULL;
-    }
-    else
-    {
-        r->next->prev = r->prev; // для следующего от r предыдущим становится r->prev
-        r->prev->next = r->next; // для предыдущего от r следующим становится r->next
-    }
-    delete r;
+    r->prev->next = r->next;
+    r->next->prev = r->prev;
+    delete r; // удаляем r
 }
 
-void print(list *h, list *t)
+void print(list *h)
 {                // печать элементов списка
     list *p = h; // укзатель на голову
-    while (p)
+    cout << h->inf << " ";
+    p = h->next;
+    while (p != h)
     { // пока не дошли до конца списка
         cout << p->inf << " ";
         p = p->next; // переход к следующему элементу
     }
+    cout << endl;
 }
 
 int main()
 {
-    list *h = 0, *t = h;
-    push(h, t, 1);
-    push(h, t, 2);
-    push(h, t, 3);
-    push(h, t, 4);
-    push(h, t, 5);
-    push(h, t, 6);
-    push(h, t, 7);
-    push(h, t, 8);
-    push(h, t, 9);
-    list *h=t;
-    list *p = h;
-    int n = 5;
-    while (p->next != p->prev)
+    list *h = new list;
+    int n, q, k;
+    cin >> n >> q;
+    h->inf = q;
+    h->next = h;
+    h->prev = h;
+    for (int i = 0; i < n - 1; i++)
     {
-        for (int i=0;;i+=n)
-            del_node(h,t,)
-
-
+        cin >> q;
+        push(h, q);
     }
-    print(h, t);
+    print(h);
+    cin >> k;
+    while (h->next != h)
+    {
+        del_node(h, find(h, k));
+        print(h);
+    }
+    print(h);
 }
